@@ -13,12 +13,13 @@ for j in jira.projects():
     issues = jira.search_issues(jql_str='project=%s'%j, maxResults=100000)
     i=0
     a=0
-
+#统计每个项目中李松报告的bug数量
     for u in issues:
         if str(u.fields.reporter)=='李松':
             i=i+1
         if str(u.fields.reporter) == '陈玉萍':
             a = a + 1
+#统计报告的所有bug数量
     totlels=totlels+i
     totlecyp=totlecyp+a
     print(j.name+'缺陷数量：',i,a)
