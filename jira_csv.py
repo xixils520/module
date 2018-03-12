@@ -1,31 +1,11 @@
 # encoding=utf-8
-# from prettytable import PrettyTable
 from jira.client import JIRA
 import csv
 jira=JIRA("http://jira.diandainfo.cn:9090",basic_auth=('lisong', '123456'))
 #打印登录名称
 print (jira.user(jira.current_user()))
-# x = PrettyTable(["项目", "缺陷数量"])
-# x.align["name"] = "l"
-# x.align["name"] = "l"
-#统计jira项目bug数量
-# emptyArr = []
-# for j in jira.projects():
-#     issues = jira.search_issues(jql_str='project=%s'%j, maxResults=100000)
-#     alist = []
-#     for u in issues:
-#         alist.append(u)
-#         i=0
-#         for a in alist:
-#             i=i+1
-#     emptyArr.append([j.name,i])
-# with open("test.csv", "w",newline='') as csvfile:
-#     writer = csv.writer(csvfile)
-#     # 先写入columns_name
-#     writer.writerow(["项目名称", "缺陷数量"])
-#     # 写入多行用writerows
-#     writer.writerows(emptyArr)
-# 每个项目中bug状态数量
+# 统计jira项目bug数量
+emptyArr = []
 emptyArr1 = []
 for j in jira.projects():
     issues = jira.search_issues(jql_str='project=%s'%j, maxResults=100000)
@@ -34,7 +14,6 @@ for j in jira.projects():
 
     for u in issues:
         alist.append(u)
-    # print(alist)
     for b in alist:
         c=b.key
         # print(c)
@@ -43,6 +22,7 @@ for j in jira.projects():
             blist.append(issue)
         else:
             continue
+
     db = 0
     kf = 0
     cxdk = 0
@@ -52,6 +32,7 @@ for j in jira.projects():
     byjj = 0
     xy = 0
     wc = 0
+    print(blist)
     for issue in blist:
         if str(issue.fields.status) == '完成':
         # print(str(issue.fields.status)+'wc')
@@ -90,21 +71,24 @@ for j in jira.projects():
     emptyArr1.append([j.name,'不予解决' , byjj])
     emptyArr1.append([j.name,'待办' , db])
     emptyArr1.append([j.name, '响应', xy])
-print(emptyArr1)
-with open("test001.csv", "w",newline='') as csvfile:
-    writer = csv.writer(csvfile)
-    # 先写入columns_name
-    writer.writerow(["项目名称", "缺陷状态",'缺陷数量'])
-    # 写入多行用writerows
-    writer.writerows(emptyArr1)
-#     print(j.name+'完成状态bug数量：',wc)
-#     print(j.name+'开放状态bug数量：',kf)
-#     print(j.name+'重新打开状态bug数量：',cxdk)
-#     print(j.name+'已解决状态bug数量：',yjj)
-#     print(j.name+'已验证状态bug数量：',yyz)
-#     print(j.name+'挂起状态bug数量：',gq)
-#     print(j.name+'不予解决状态bug数量：',byjj)
-#     print(j.name+'响应bug状态bug数量：',xy)
+    print(emptyArr1)
+    with open("test001.csv", "w",newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        # 先写入columns_name
+        writer.writerow(["项目名称", "缺陷状态",'缺陷数量'])
+        # 写入多行用writerows
+        writer.writerows(emptyArr1)
+        i = 0
+        for b in blist:
+            i = i + 1;
+        emptyArr.append([j.name, i])
+    print(emptyArr)
+    with open("test.csv", "w", newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        # 先写入columns_name
+        writer.writerow(["项目名称", "缺陷数量"])
+        # 写入多行用writerows
+        writer.writerows(emptyArr)
 
 
 
